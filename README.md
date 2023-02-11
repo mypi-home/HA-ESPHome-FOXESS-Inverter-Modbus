@@ -1,4 +1,4 @@
-# HA-FOXESS-Inverter-Modbus
+# HA-ESPHome-FOXESS-Inverter-Modbus
 
 Hardware setup guide and ESPHome/Home Assistant code to pull full data from FOX ESS H1/AC1 Hybrid Inverters and publish to Home Assistant
 
