@@ -63,6 +63,7 @@ Use the `esp32-example.yaml` / `esp8266-example.yaml` as proof of concept:
 ## Configuration
 
 See /src/ folder
+* https://github.com/mypi-home/HA-ESPHome-FOXESS-Inverter-Modbus/tree/main/src
 
 
 ## Known issues
