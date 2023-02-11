@@ -40,7 +40,11 @@ Please make sure to power the RS485 module with 3.3V because it affects the TTL 
 
 ## Hardware Photos:
 
-TBA
+
+<img src="blob:chrome-untrusted://media-app/84ee4883-3858-4732-8f82-871947764251" alt=" Hardware 1"/>![image](https://user-images.githubusercontent.com/53345613/218282119-4536b695-da31-4227-97e3-b2c5c2cbfd89.png)
+
+<img src="blob:chrome-untrusted://media-app/36039318-3b59-4b6e-affb-9438dcfb1464" alt=" Hardware 2"/>![image](https://user-images.githubusercontent.com/53345613/218282131-fdc75786-a998-4ddf-b8c3-ff990120596b.png)
+
 
 ## Installation
 
