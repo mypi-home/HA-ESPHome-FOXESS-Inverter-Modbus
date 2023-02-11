@@ -19,20 +19,22 @@ Hardware setup guide and ESPHome/Home Assistant code to pull full data from FOX 
 #### RS485-TTL module with flow control pin
 
 ```
-               RS485                        UART
-┌─────────┐              ┌─────────────┐           ┌─────────────────┐
-│         │              │           DI│<--------->│TX               │
-│  FOX    │<-----B- ---->│  RS485    DE│<--\(join) │         ESP32/  │
-│  ESS    │<---- A+ ---->│  to TTL   RE│<---+----->│GPIO0   ESP8266  │
-│ H1/AC1  │              │  module   RO│<--------->│RX               │
-│         │              │             │           │                 │
-│         │              │          VCC│<--------->│3.3V          VCC│<--
-│         │              │          GND│<--------->│GND           GND│<--
-└─────────┘              └─────────────┘           └─────────────────┘
-DE+RE wired together
+                     RS485                        UART
+┌──────────────┐              ┌─────────────┐           ┌─────────────────┐
+│       |      │              │           DI│<--------->│TX               │
+│  FOX  | PIN 3│<---- B ----->│  RS485    DE│<--\(join) │         ESP32/  │
+│  ESS  | PIN 4│<---- A ----->│  to TTL   RE│<---+----->│GPIO0   ESP8266  │
+│ H1/AC1|      │              │  module   RO│<--------->│RX               │
+│       |      │              │             │           │                 │
+│       |      │              │          VCC│<--------->│3.3V          VCC│<--
+│       |      │              │          GND│<--------->│GND           GND│<--
+└──────────────┘              └─────────────┘           └─────────────────┘
+                                             DE+RE wired together
 
 ```
-
+Pins are in the Meter/CT/RS485 Interface connector show in the manual on page 21.
+ - PIN 3 = 485-B
+ - PIN 4 = 485-A
 Please make sure to power the RS485 module with 3.3V because it affects the TTL (transistor-transistor logic) voltage between RS485 module and ESP.
 
 ## Hardware Photos:
@@ -55,90 +57,11 @@ Use the `esp32-example.yaml` / `esp8266-example.yaml` as proof of concept:
 
 ## Configuration
 
-```yaml
-substitutions:
-  name: solar-powermeter
-
-esphome:
-  name: ${name}
-  platform: ESP32
-  board: esp-wrover-kit
-
-external_components:
-  - source: github://syssi/esphome-modbus-solax-x1@main
-    refresh: 0s
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-ota:
-# api:
-
-logger:
-  baud_rate: 0
-
-mqtt:
-  broker: !secret mqtt_host
-  username: !secret mqtt_username
-  password: !secret mqtt_password
-  id: mqtt_client
-
-uart:
-  baud_rate: 9600
-  tx_pin: GPIO1
-  rx_pin: GPIO3
-
-solax_x1:
-  serial_number: "3132333435363737363534333231"
-  address: 0x0A
-  update_interval: 1s
-#  flow_control_pin: GPIO0
-
-text_sensor:
-  - platform: solax_x1
-    mode_name:
-      name: "${name} mode name"
-    errors:
-      name: "${name} errors"
-
-sensor:
-  - platform: solax_x1
-    ac_power:
-      name: "${name} ac power"
-    energy_today:
-      name: "${name} energy today"
-    energy_total:
-      name: "${name} energy total"
-    dc1_voltage:
-      name: "${name} dc1 voltage"
-    dc2_voltage:
-      name: "${name} dc2 voltage"
-    dc1_current:
-      name: "${name} dc1 current"
-    dc2_current:
-      name: "${name} dc2 current"
-    ac_current:
-      name: "${name} ac current"
-    ac_voltage:
-      name: "${name} ac voltage"
-    ac_frequency:
-      name: "${name} ac frequency"
-    temperature:
-      name: "${name} temperature"
-    runtime_total:
-      name: "${name} runtime total"
-    mode:
-      name: "${name} mode"
-    error_bits:
-      name: "${name} error bits"
-```
-
-For a more advanced setup take a look at the [esp32-example-advanced-multiple-uarts.yaml](esp32-example-advanced-multiple-uarts.yaml).
+See src/config.yaml
 
 ## Known issues
 
-# TBA
+* TBA
 
 ## Debugging
 
@@ -160,9 +83,10 @@ uart:
 
 ## To-Do List
 
-# Add many more discovered Modbus addresses
-# Update for alternative hardware LilyGO CAN485
-# Add code to pull and paste data from BMS CAN Bus
+* Add many more discovered Modbus addresses
+* Update for alternative hardware LilyGO CAN485
+* Add code to pull and paste data from BMS CAN Bus
+
 
 ## References
 * https://github.com/nathanmarlor/HA-FoxESS-Modbus
