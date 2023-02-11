@@ -1,0 +1,240 @@
+substitutions:
+  modbus_update_time: 15s
+  inverter_id: foxess          # ${inverter_id}
+  inverter_name: FOX      # ${inverter_name}
+
+
+esphome:
+  name: esphome-fox-ess-integration
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+    level: VERBOSE
+    baud_rate: 0
+# Enable Home Assistant API
+api:
+
+ota:
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esphome-Fox-Ess-Integration"
+    password: "addpwhere"
+
+captive_portal:
+
+uart:   
+  id: mod_bus
+  tx_pin: 1
+  rx_pin: 3
+  baud_rate: 9600
+  stop_bits: 1
+
+#  debug:
+#    direction: BOTH
+#    dummy_receiver: false
+#     after:
+#       delimiter: "\n"
+#    sequence:
+#      - lambda: UARTDebug::log_hex(direction, bytes, ' ');
+
+
+modbus:
+  flow_control_pin: 0
+  id: modbuscontroller
+#  send_wait_time: 1000ms
+
+modbus_controller:
+  - id: ${inverter_id}
+    ## the Modbus device addr
+    address: 0xF7  #247 check your address in FOXESS Menu under communications
+    modbus_id: modbuscontroller
+    setup_priority: -10
+    update_interval: ${modbus_update_time}
+#    command_throttle: 1000ms
+
+sensor:
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Battery Voltage Inverter"
+    id: ${inverter_id}_Battery_Voltage_Inverter
+    register_type: read
+    address: 11006
+    unit_of_measurement: "V"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Battery Current"
+    id: ${inverter_id}_Battery_Power
+    register_type: read
+    address: 11007
+    unit_of_measurement: "A"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Battery Discharge Power"
+    id: ${inverter_id}_Battery_Discharge_Power
+    register_type: read
+    address: 11008
+    unit_of_measurement: "kW"
+    value_type: S_WORD
+    accuracy_decimals: 3
+    filters:
+    - multiply: 0.001
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Grid Voltage"
+    id: ${inverter_id}_Grid_Voltage
+    register_type: read
+    address: 11009
+    unit_of_measurement: "V"
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Grid Frequency"
+    id: ${inverter_id}_Grid_Frequency
+    register_type: read
+    address: 11014
+    unit_of_measurement: "Hz"
+    value_type: U_WORD
+    filters:
+    - multiply: 0.01
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} CT1 Power"
+    id: ${inverter_id}_CT1_Power
+    register_type: read
+    address: 11021
+    unit_of_measurement: "kW"
+    value_type: S_WORD
+    accuracy_decimals: 3
+    filters:
+    - multiply: 0.001
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} CT2 Power"
+    id: ${inverter_id}_CT2_Power
+    register_type: read
+    address: 11022
+    unit_of_measurement: "kW"
+    value_type: S_WORD
+    accuracy_decimals: 3
+    filters:
+    - multiply: 0.001
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Grid Load Power"
+    id: ${inverter_id}_grid_load_power
+    register_type: read
+    address: 11023
+    unit_of_measurement: "kW"
+    value_type: S_WORD
+    accuracy_decimals: 3
+    filters:
+    - multiply: 0.001
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Inverter Temperature"
+    id: ${inverter_id}_Inverter_Temperature
+    register_type: read
+    address: 11024
+    unit_of_measurement: "°C"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Ambient Temperature"
+    id: ${inverter_id}_Ambient_Temperature
+    register_type: read
+    address: 11025
+    unit_of_measurement: "°C"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Battery Voltage BMS"
+    id: ${inverter_id}_Battery_Voltage_bms
+    register_type: read
+    address: 11034
+    unit_of_measurement: "V"
+    value_type: U_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Battery SoC"
+    id: ${inverter_id}_Battery_SoC
+    register_type: read
+    address: 11036
+    unit_of_measurement: "%"
+    value_type: U_WORD
+    filters:
+    - multiply: 1
+
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} Battery Temperature"
+    id: ${inverter_id}_Battery_Temperature
+    register_type: read
+    address: 11038
+    unit_of_measurement: "°C"
+    value_type: S_WORD
+    filters:
+    - multiply: 0.1
+
+
+
+  ##Reset Switch
+switch:
+- platform: restart
+  name: Modbus ESP Restart  
+
+#Required for Daily kWh Calc
+time:
+  - platform: sntp
+    id: my_time
