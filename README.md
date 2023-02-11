@@ -35,6 +35,7 @@ Hardware setup guide and ESPHome/Home Assistant code to pull full data from FOX 
 Pins are in the Meter/CT/RS485 Interface connector show in the manual on page 21.
  - PIN 3 = 485-B
  - PIN 4 = 485-A
+
 Please make sure to power the RS485 module with 3.3V because it affects the TTL (transistor-transistor logic) voltage between RS485 module and ESP.
 
 ## Hardware Photos:
