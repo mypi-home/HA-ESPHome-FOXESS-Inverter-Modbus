@@ -10,9 +10,9 @@ Hardware setup guide and ESPHome/Home Assistant code to pull full data from FOX 
 ## Requirements
 
 * [ESPHome 1.18.0 or higher](https://github.com/esphome/esphome/releases).
-* Ethernet cable wiring for connection to controller
-* RS485-to-TTL module (`HW-0519` f.e.)
-* Generic ESP32 or ESP8266 board
+* Ethernet cable wiring for connection to Fox 485 A and B lines
+* RS485-to-TTL module MAX485 or similar
+* Generic ESP32 or ESP8266 board (tested with Wemos D1 Mini 8266)
 
 ## Hardware Schematics
 
@@ -57,29 +57,18 @@ Use the `esp32-example.yaml` / `esp8266-example.yaml` as proof of concept:
 
 ## Configuration
 
-See src/config.yaml
+See /src/ folder
+
 
 ## Known issues
 
 * TBA
 
+
 ## Debugging
 
-If this component doesn't work out of the box for your device please update your configuration to enable the debug output of the UART component and increase the log level to the see outgoing and incoming serial traffic:
+If this doesn't work out of the box for your device please update your configuration to enable the debug output of the UART component and increase the log level to the see outgoing and incoming serial traffic (uncomment it).
 
-```
-logger:
-  baud_rate: 0
-  level: DEBUG
-
-uart:
-  id: uart0
-  baud_rate: 9600
-  tx_pin: GPIO1
-  rx_pin: GPIO3
-  debug:
-    direction: BOTH
-```
 
 ## To-Do List
 
