@@ -1,6 +1,6 @@
 # HA-ESPHome-FOXESS-Inverter-Modbus
 
-Hardware setup guide and ESPHome/Home Assistant code to pull full data from FOX ESS H1/AC1 Hybrid Inverters and publish to Home Assistant
+Hardware setup guide and ESPHome/Home Assistant code to pull realtime data via Modbus RTU from FOX ESS H1/AC1 Hybrid Inverters and publish to Home Assistant.
 
 
 ## Supported devices
