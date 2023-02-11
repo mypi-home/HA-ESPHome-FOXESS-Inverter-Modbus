@@ -62,6 +62,82 @@ modbus_controller:
 
 sensor:
 
+### Remove the below 6 solar sensors for AC1 model (no solar) ###
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} PV1 Voltage"
+    id: ${inverter_id}_PV1_Voltage
+    register_type: read
+    address: 11000
+    unit_of_measurement: "V"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+    
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} PV2 Voltage"
+    id: ${inverter_id}_PV2_Voltage
+    register_type: read
+    address: 11003
+    unit_of_measurement: "V"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} PV1 Current"
+    id: ${inverter_id}_PV1_Current
+    register_type: read
+    address: 11001
+    unit_of_measurement: "A"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} PV2 Current"
+    id: ${inverter_id}_PV2_Current
+    register_type: read
+    address: 11004
+    unit_of_measurement: "A"
+    value_type: S_WORD
+    accuracy_decimals: 1
+    filters:
+    - multiply: 0.1
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} PV1 Power"
+    id: ${inverter_id}_PV1_Power
+    register_type: read
+    address: 11002
+    unit_of_measurement: "kW"
+    value_type: S_WORD
+    accuracy_decimals: 3
+    filters:
+    - multiply: 0.001
+
+  - platform: modbus_controller
+    modbus_controller_id: ${inverter_id}
+    name: "${inverter_name} PV2 Power"
+    id: ${inverter_id}_PV2_Power
+    register_type: read
+    address: 11005
+    unit_of_measurement: "kW"
+    value_type: S_WORD
+    accuracy_decimals: 3
+    filters:
+    - multiply: 0.001
+
+### Remove the above for AC1 model (no solar) ###
+
   - platform: modbus_controller
     modbus_controller_id: ${inverter_id}
     name: "${inverter_name} Battery Voltage Inverter"
@@ -78,7 +154,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: ${inverter_id}
     name: "${inverter_name} Battery Current"
-    id: ${inverter_id}_Battery_Power
+    id: ${inverter_id}_Battery_Current
     register_type: read
     address: 11007
     unit_of_measurement: "A"
